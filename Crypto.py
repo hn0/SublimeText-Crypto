@@ -110,6 +110,7 @@ def crypto(view, enc_flag, password, data):
   s = sublime.load_settings("Crypto.sublime-settings")
   cipher = s.get('cipher')
   openssl_command = os.path.normpath( s.get('openssl_command') )
+  salt_flag = '-nosalt' if not s.get( 'salt_key' ) is True else '-salt'
 
   # pass the password as an ENV variable, for better security
   envVar = ''.join( random.sample( string.ascii_uppercase, 23 ) )
@@ -117,7 +118,7 @@ def crypto(view, enc_flag, password, data):
   _pass = "env:%s" % envVar
 
   try:
-    openssl = Popen([openssl_command, "enc", enc_flag, cipher, "-base64", "-pass", _pass], stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    openssl = Popen([openssl_command, "enc", enc_flag, cipher, salt_flag, "-base64", "-pass", _pass], stdin=PIPE, stdout=PIPE, stderr=PIPE)
     result, error = openssl.communicate( data.encode("utf-8") )
     del os.environ[envVar] # get rid of the temporary ENV var
   except IOError as e:

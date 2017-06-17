@@ -37,8 +37,11 @@ After installation you will have:
   - Set the path to your `openssl` executable - default: `openssl`
   - Set the Encryption Cipher - default: `-aes128`
   - Obfuscate the password input - default 'false'
+  - Use salt - default 'false'
 
 **Note**:
+
+In order to enable cross machine encryption/decryption no salt flag has been used as quick and less secure solution. If plugin will be used on single machine settings flag salt_key should be set to true.
 
 By default password input will *not* be obfuscated. If you want your password input to be obfuscated you can change the setting `obfuscate_password` to `true` in your `Preferences > Package Settings > Crypto > Settings - User`.
 
